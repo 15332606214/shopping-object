@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from "@/router";
+import TypeNav from "./components/TypeNav";
 
-// 不显示 非生产环境下的提示
+// 注册全局组件
+Vue.component(TypeNav.name,TypeNav)
+
+// 控制台不显示 非生产环境下的打包提示
 Vue.config.productionTip = false
 
 new Vue({
