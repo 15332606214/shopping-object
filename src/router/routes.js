@@ -13,9 +13,15 @@ export default[
         component:Search
     },{
         path:'/login',
-        component:Login
+        component:Login,
+        meta:{
+            isHideFooter:true
+        }
     },{
         path:'/register',
-        component:Register
+        component:Register,
+        meta:{
+            isHideFooter:true
+        }
     }
 ]
