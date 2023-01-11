@@ -20,6 +20,7 @@ import Like from "./Like";
 import Floor from "./Floor";
 import Brand from "./Brand";
 
+
 export default {
     name:'Home',
     components:{

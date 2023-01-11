@@ -9,7 +9,6 @@
 <script>
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import {getCategoryList} from './api'
 
 export default {
   name: 'App',
@@ -18,9 +17,7 @@ export default {
     Footer
   },
   mounted(){
-    getCategoryList().then(result=>{
-      console.log('result',result);
-    })
+    this.$store.dispatch('getCategoryList')
   }
 }
 </script>

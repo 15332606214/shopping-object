@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from "@/router";
 import TypeNav from "./components/TypeNav";
+import store from "./store";
 
 // 注册全局组件
 Vue.component(TypeNav.name,TypeNav)
@@ -11,5 +12,6 @@ Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
-  router //注册路由器
+  router, //注册路由器
+  store   //注册vuex的store对象
 }).$mount('#app')

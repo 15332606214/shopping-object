@@ -11,8 +11,8 @@ import 'nprogress/nprogress.css'
 
 // 1.配置通用的基础路径和超时
 const service = axios.create({
-    baseURL:'http://gmall-h5-api.atguigu.cn/api',
-    timeout:30000,
+    baseURL:'/api',
+    timeout:20000,
 })
 
 // 添加请求拦截器
@@ -30,7 +30,7 @@ service.interceptors.response.use(
         // 隐藏请求进度条
         NProgress.done()
 
-        /* 3.成功返回的数据不再是response，而直接是响应体数据response.data */
+        /* 3.成功返回的数据不再是response，而直接是response.data（响应体数据） */
         return response.data
     },
     error=>{    //请求失败返回的回调
