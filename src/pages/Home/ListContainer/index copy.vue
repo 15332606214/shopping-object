@@ -4,14 +4,19 @@
         <div class="sortList clearfix">
             <div class="center">
                 <!--banner轮播-->
-                <swiper :options="swiperOptions">
-                    <swiper-slide v-for="banner in bannerList" :key="banner.id">
-                        <img :src="banner.imageUrl" style="width:740px;height:464px ;" />
-                    </swiper-slide>
-                    <div class="swiper-pagination" slot="pagination"></div>
-                    <div class="swiper-button-prev" slot="button-prev"></div>
-                    <div class="swiper-button-next" slot="button-next"></div>
-                </swiper>
+                <div class="swiper-container" ref="swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="banner in bannerList" :key="banner.id">
+                            <img :src="banner.imageUrl" style="width:740px;height:464px ;" />
+                        </div>
+                    </div>
+                    <!-- 如果需要分页器 -->
+                    <div class="swiper-pagination"></div>
+
+                    <!-- 如果需要导航按钮 -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
             </div>
             <div class="right">
                 <div class="news">
@@ -103,32 +108,38 @@ import { mapState } from "vuex";
 
 export default {
     name: 'ListContainer',
-    data() {
-        return {
-            swiperOptions: {
-                // direction: 'vertical', // 垂直切换选项
-                loop: true, // 循环模式选项
-                autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false,
-                },
-                // 如果需要分页器
-                pagination: {
-                    el: '.swiper-pagination',
-                },
-                // 如果需要前进后退按钮
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                }
-            }
-        }
-    },
     computed: {
         ...mapState({
             bannerList: store => store.home.bannerList
         })
+    },
+    watch: {
+        bannerList() {
+            // $nextTick将回调延迟到下次DOM更新循环之后。再修改数据后立即使用他，然后等待DOM更新
+            this.$nextTick(() => {
+                new Swiper(this.$refs.swiper, {
+                    // direction: 'vertical', // 垂直切换选项
+                    loop: true, // 循环模式选项
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+
+                    // 如果需要分页器
+                    pagination: {
+                        el: '.swiper-pagination',
+                    },
+
+                    // 如果需要前进后退按钮
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                })
+            })
+        }
     }
+
 }
 </script>
 

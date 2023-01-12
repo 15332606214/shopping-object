@@ -18,6 +18,7 @@ export default {
   },
   mounted(){
     this.$store.dispatch('getCategoryList')
+    this.$store.dispatch('getBannerList')
   }
 }
 </script>

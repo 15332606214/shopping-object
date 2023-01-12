@@ -9,3 +9,6 @@ export function reqCategoryList() {
         url:'/product/getBaseCategoryList'
     })
 }
+
+// 获取首页广告轮播效果(mock数据)
+export const reqBannerList = () =>ajax('/cms/banner')
