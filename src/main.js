@@ -5,6 +5,7 @@ import TypeNav from "./components/TypeNav";
 import store from "./store";
 
 import './plugins/swiper' //加载swiper的配置
+import './mock/mockServer'//加载mock数据
 
 // 注册全局组件
 Vue.component(TypeNav.name,TypeNav)
