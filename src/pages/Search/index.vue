@@ -11,45 +11,75 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="options.categoryName">
+              {{ options.categoryName }}
+              <i @click="removeCategory">×</i>
+            </li>
+            <li class="with-x" v-if="options.keyword">
+              {{ options.keyword }}
+              <i @click="removeKeyword">×</i>
+            </li>
+            <li class="with-x" v-if="options.trademark">
+              {{ options.trademark }}
+              <i @click="removeTrademark">×</i>
+            </li>
+            <li class="with-x" v-for="(prop, index) in options.props" :key="prop">
+              {{ prop }}
+              <i @click="removeProp(index)">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector :setTrademark="setTrademark" @addProp="addProp" />
 
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <!-- order:'1:desc' -->
+                <li :class="{ active: orderArr[0] === '1' }" @click="setOrder('1')">
+                  <a href="javascript:">
+                    综合
+                    <i v-if="orderArr[0] === '1'" class="iconfont"
+                      :class="orderArr[1] === 'desc' ? 'icon-jiantou_yemian_xiangshang' : 'icon-jiantou_yemian_xiangxia'"></i>
+                  </a>
+                </li>
+
+                <li :class="{ active: orderArr[0] === '3' }" @click="setOrder('3')">
+                  <a href="javascript:">
+                    销量
+                    <i v-if="orderArr[0] === '3'" class="iconfont"
+                      :class="orderArr[1] === 'desc' ? 'icon-jiantou_yemian_xiangshang' : 'icon-jiantou_yemian_xiangxia'"></i>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="javascript:">
+                    新品
+                  </a>
                 </li>
                 <li>
-                  <a href="#">销量</a>
+                  <a href="javascript:">
+                    评价
+                  </a>
                 </li>
-                <li>
-                  <a href="#">新品</a>
+
+                <li :class="{ active: orderArr[0] === '2' }" @click="setOrder('2')">
+                  <a href="javascript:">
+                    价格
+                    <i v-if="orderArr[0] === '2'" class="iconfont"
+                      :class="orderArr[1] === 'desc' ? 'icon-jiantou_yemian_xiangshang' : 'icon-jiantou_yemian_xiangxia'"></i>
+                  </a>
                 </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
-                </li>
+
               </ul>
             </div>
           </div>
           <div class="goods-list">
             <ul class="yui3-g">
-              <li class="yui3-u-1-5" v-for="item in goodsList" :key="item.id">
+              <li class="yui3-u-1-5" v-for="item in   goodsList" :key="item.id">
                 <div class="list-wrap">
                   <div class="p-img">
                     <a href="javascript:"><img :src="item.defaultImg" /></a>
@@ -61,7 +91,7 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a href="javascript:" >
+                    <a href="javascript:">
                       {{ item.title }}
                     </a>
                   </div>
@@ -76,35 +106,12 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <pagination
+            :currentPage="options.pageNo"
+            :total="total"
+            :pageSize="options.pageSize"
+            :showPageNo="3"
+            @currrentChange="currentChange"/>
         </div>
       </div>
     </div>
@@ -116,36 +123,171 @@ import { mapGetters } from "vuex";
 import SearchSelector from './SearchSelector/SearchSelector'
 export default {
   name: 'Search',
-  data(){
+  data() {
     return {
-      category1Id:'',   //一级分类Id
-      category2Id:'',   //一级分类Id
-      category3Id:'',   //一级分类Id
-      categoryName:'',  //分类名称
-      keyword:'',       //搜索关键字
+      options: {
+        category1Id: '',   //一级分类Id
+        category2Id: '',   //一级分类Id
+        category3Id: '',   //一级分类Id
+        categoryName: '',  //分类名称
+        keyword: '',       //搜索关键字
 
-      props:[],         //
-      trademark:'',     //品牌
-      order:'',         //排序方式 1:综合 2:价格 asc:升序 desc:降序
+        props: [],
+        trademark: '',     //品牌
+        order: '1:desc',         //排序方式 1:综合 2:价格 asc:升序 desc:降序
 
-      pageNo:1,         //页码
-      pageSize:10,      //每页数量
+        pageNo: 1,         //页码
+        pageSize: 10,      //每页数量
+      }
     }
   },
-  mounted() {
-    this.$store.dispatch('getProductList',{
-      pageNo:1,
-      pageSize:10
-    })
-  },
-  computed:{
+  computed: {
     // ...mapState({
     //   goodsList:state=>state.search.productList.goodsList
     // })
-      ...mapGetters(['goodsList'])
+    ...mapGetters(['goodsList', 'total']),
+
+    // 得到包含当前分类项标识(orderFlag)和排序方式(orderType)的数组
+    orderArr() {
+      return this.options.order.split(':')
+    }
+  },
+  methods: {
+    // 当前页码发生改变的事件回调
+    currentChange(page){
+      this.options.pageno=page
+      this.getShopList()
+    },
+    /* 
+     设置新的排序搜索
+    */
+    setOrder(orderFlag) {
+      // 得到当前的排序项和排序方式
+      let [flag, type] = this.orderArr
+      // 如果点击的是当前排序项：只需切换orderType
+      if (orderFlag === flag) {
+        type = type === 'desc' ? 'asc' : 'desc'
+      } else {
+        // 如果点击的不是当前排序项：更新orderFlag为指定值，orderType更新为desc
+        flag = orderFlag
+        type = 'desc'
+      }
+
+
+      // 请求获取商品分页列表
+      this.options.order = flag + ':' + type
+      this.getShopList()
+    },
+    /* 
+    添加一个属性条件
+    */
+    addProp(prop) {
+      // 如果已经存在在条件数组中，不添加
+      if (this.options.props.includes(prop)) { return }
+      // 向props数组添加一个条件字符串 子向父通信=>vue自定义事件
+      this.options.props.push(prop)
+      // 重新请求获取数据列表
+      this.getShopList()
+    },
+
+    /* 
+    设置品牌条件
+    */
+    setTrademark(trademark) {
+      // 如果当前品牌已经在条件中，直接结束
+      if (trademark == this.options.trademark) {
+        return
+      }
+      // 更新options中的trademark为指定值
+      // this.options.trademark = trademark  //非响应式
+      this.$set(this.options,'trademark',trademark)  //响应式
+      // 重新请求获取数据列表
+      this.getShopList()
+      // 
+    },
+
+    /* 删除分类条件 */
+    removeCategory() {
+      // 更新数据
+      this.options.category1Id = '',
+        this.options.category2Id = '',
+        this.options.category3Id = '',
+        this.options.categoryName = ''
+      // 重新跳转到search，不携带删除的条件对应的数据
+      this.$router.replace({
+        name: 'search',
+        params: this.$route.params
+      })
+    },
+
+    /* 删除关键字条件 */
+    removeKeyword() {
+      // 更新数据
+      this.options.keyword = ''
+      // 重新跳转到search，不携带删除的条件对应的数据
+      this.$router.replace({
+        name: 'search',
+        query: this.$route.query
+      })
+
+      // 3)在search中分发事件
+      this.$bus.$emit('removeKeyword')
+    },
+
+    /* 删除商标条件 */
+    removeTrademark() {
+      // 重置品牌条件
+      // this.options.trademark = ''  //非响应式
+      this.$delete(this.options,'trademark',trademark) // 响应式
+      // 重新发送请求
+      this.getShopList()
+    },
+
+    /* 删除属性条件 */
+    removeProp(index) {
+      // 删除props中的index（指定）元素
+      this.options.props.splice(index, 1)
+      // 重新发送请求
+      this.getShopList()
+    },
+
+    /* 
+    更新options中的参数属性
+    */
+    updataParams() {
+      // 取出参数数据
+      const { keyword } = this.$route.params
+      const { category1Id, category2Id, category3Id, categoryName } = this.$route.query
+      // 保存到options中
+      this.options = {
+        ...this.options,
+        category1Id,
+        category2Id,
+        category3Id,
+        categoryName,
+        keyword
+      }
+    },
+    getShopList() {
+      // 发搜索请求
+      this.$store.dispatch('getProductList', this.options)
+    }
   },
   components: {
     SearchSelector
+  },
+  watch: {
+    /* $route(to, from) { //监视参数变化
+      this.updataParams()
+      this.getShopList()
+    } */
+    $route: {
+      handler(to, from) { //监视参数变化
+        this.updataParams()
+        this.getShopList()
+      },
+      immediate: true //初始化立即执行一次
+    }
   }
 }
 </script>

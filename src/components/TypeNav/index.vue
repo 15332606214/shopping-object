@@ -122,8 +122,16 @@ export default {
                     query,
                     params:this.$route.params
                 }
-                // 跳转到search
-                this.$router.push(location)
+                // 其他页跳转到search用push/搜索页到搜索页用replace
+                if(this.$route.name==='search'){
+                    this.$router.replace(location)
+                }else{
+                    this.$router.push(location)
+                }
+                
+
+                // 隐藏一级列表
+                this.hideFirst()
             }
 
         }

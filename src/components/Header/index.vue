@@ -52,7 +52,7 @@ export default {
     search() {
       const location = {
         name: 'search',
-        query:this.$route.query
+        query: this.$route.query
       }
       if (this.keyword) {
         location.params = {
@@ -60,9 +60,24 @@ export default {
         }
       }
 
-
-      this.$router.push(location,()=>{})
+      // 其他页跳转到search用push/搜索页到搜索页用replace
+      if (this.$route.name === 'search') {
+        this.$router.replace(location)
+      } else {
+        this.$router.push(location)
+      }
     }
+  },
+
+  mounted() {
+    //2)在header中绑定自定义事件监听，在回调中清除数据
+    this.$bus.$on('removeKeyword', () => {
+      this.keyword = ''
+    })
+  },
+  // 4)在header组件死亡前解绑事件监听
+  beforeDestroy() {
+    this.$bus.off('removeKeyword')
   }
 }
 </script>
