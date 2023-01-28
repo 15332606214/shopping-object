@@ -82,7 +82,9 @@
               <li class="yui3-u-1-5" v-for="item in   goodsList" :key="item.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="javascript:"><img :src="item.defaultImg" /></a>
+                    <router-link :to="`/detail/`+item.id">
+                      <img :src="item.defaultImg" />
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -91,9 +93,9 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a href="javascript:">
+                    <router-link :to="`/detail/`+item.id">
                       {{ item.title }}
-                    </a>
+                    </router-link>
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>
@@ -106,12 +108,8 @@
               </li>
             </ul>
           </div>
-          <pagination
-            :currentPage="options.pageNo"
-            :total="total"
-            :pageSize="options.pageSize"
-            :showPageNo="3"
-            @currrentChange="currentChange"/>
+          <Pagination :currentPage="options.pageNo" :total="total" :pageSize="options.pageSize" :showPageNo="3"
+            @currrentChange="currrentChange" />
         </div>
       </div>
     </div>
@@ -136,8 +134,8 @@ export default {
         trademark: '',     //品牌
         order: '1:desc',         //排序方式 1:综合 2:价格 asc:升序 desc:降序
 
-        pageNo: 1,         //页码
-        pageSize: 10,      //每页数量
+        pageNo: 5,         //页码
+        pageSize: 5,      //每页数量
       }
     }
   },
@@ -154,9 +152,8 @@ export default {
   },
   methods: {
     // 当前页码发生改变的事件回调
-    currentChange(page){
-      this.options.pageno=page
-      this.getShopList()
+    currrentChange(page) {
+      this.getShopList(page)
     },
     /* 
      设置新的排序搜索
@@ -200,7 +197,7 @@ export default {
       }
       // 更新options中的trademark为指定值
       // this.options.trademark = trademark  //非响应式
-      this.$set(this.options,'trademark',trademark)  //响应式
+      this.$set(this.options, 'trademark', trademark)  //响应式
       // 重新请求获取数据列表
       this.getShopList()
       // 
@@ -237,8 +234,8 @@ export default {
     /* 删除商标条件 */
     removeTrademark() {
       // 重置品牌条件
-      // this.options.trademark = ''  //非响应式
-      this.$delete(this.options,'trademark',trademark) // 响应式
+      this.options.trademark = ''  //非响应式
+      // this.$delete(this.options, 'trademark', trademark) // 响应式
       // 重新发送请求
       this.getShopList()
     },
@@ -268,7 +265,8 @@ export default {
         keyword
       }
     },
-    getShopList() {
+    getShopList(page = 1) {
+      this.options.pageNo = page
       // 发搜索请求
       this.$store.dispatch('getProductList', this.options)
     }

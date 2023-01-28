@@ -16,6 +16,24 @@ export const reqBannerList = () => ajax('/cms/banner')
 
 // 获取搜索页商品列表
 export const reqSearch = (searchParams) => ajax.post('/list', searchParams)
+
+// 获取商品详情数据
+export const reqDetailInfo = (skuId) => {
+    return ajax({
+        url: `/item/${skuId}`,
+        method: 'get'
+    })
+}
+
+// 添加|修改购物车
+export const reqAddOrUpdateCart=(skuId,skuNum)=>{
+    return ajax({
+        url:`/cart/addToCart/${skuId}/${skuNum}`,
+        method:'post'
+    })
+}
+
+
 /* 
 mock数据 
 */

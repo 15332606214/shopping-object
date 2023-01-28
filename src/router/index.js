@@ -8,6 +8,9 @@ Vue.use(VueRouter)
 
 // 向外默认暴露
 export default new VueRouter({
-    mode:'history', //没有#的模式
-    routes //注册所有路由
+    mode: 'history', //没有#的模式
+    routes, //注册所有路由
+    scrollBehavior(to, from, savedPosition) {
+        return { x: 0, y: 0 }
+    }
 })

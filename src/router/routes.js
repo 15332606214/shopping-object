@@ -2,6 +2,8 @@ import Home from "@/pages/Home";
 import Search from "@/pages/Search";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import Detail from "@/pages/Detail";
+import AddCartSuccess from "@/pages/AddCartSuccess";
 
 export default[
     {
@@ -23,5 +25,14 @@ export default[
         meta:{
             isHideFooter:true
         }
-    }
+    },{
+        path:'/detail/:skuId',
+        component:Detail,
+        meta:{
+            isHideFooter:true
+        }
+    },{
+        path:'/addcartsuccess',
+        component:AddCartSuccess
+    },
 ]
