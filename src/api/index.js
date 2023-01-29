@@ -25,11 +25,19 @@ export const reqDetailInfo = (skuId) => {
     })
 }
 
-// 添加|修改购物车
+// 添加|修改购物车商品数量
 export const reqAddOrUpdateCart=(skuId,skuNum)=>{
     return ajax({
         url:`/cart/addToCart/${skuId}/${skuNum}`,
         method:'post'
+    })
+}
+
+// 获取购物车列表
+export const reqCartList=()=>{
+    return ajax({
+        url:'/cart/cartList',
+        method:'get'
     })
 }
 
