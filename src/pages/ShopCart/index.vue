@@ -11,28 +11,28 @@
         <div class="cart-th6">操作</div>
       </div>
       <div class="cart-body">
-        <ul class="cart-list" v-for="shopCart in shopCart" :key="shopCart.id">
+        <ul class="cart-list" v-for="shopCartItem in shopCart" :key="shopCartItem.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="shopCart.isChecked" @click="upDateOne(shopCart)">
+            <input type="checkbox" name="chk_list" :checked="shopCartItem.isChecked" @click="upDateOne(shopCartItem)">
           </li>
           <li class="cart-list-con2">
-            <img :src="shopCart.imgUrl">
-            <div class="item-msg">{{ shopCart.skuName }}</div>
+            <img :src="shopCartItem.imgUrl">
+            <div class="item-msg">{{ shopCartItem.skuName }}</div>
           </li>
           <li class="cart-list-con4">
-            <span class="price">{{ shopCart.cartPrice }}</span>
+            <span class="price">{{ shopCartItem.cartPrice }}</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins" @click="changeCartNum(shopCart, -1, true)">-</a>
-            <input autocomplete="off" type="text" :value="shopCart.skuNum" minnum="1" class="itxt"
-              @change="changeCartNum(shopCart, $event.target.value * 1, false)">
-            <a href="javascript:void(0)" class="plus" @click="changeCartNum(shopCart, +1, true)">+</a>
+            <a href="javascript:void(0)" class="mins" @click="changeCartNum(shopCartItem, -1, true)">-</a>
+            <input autocomplete="off" type="text" :value="shopCartItem.skuNum" minnum="1" class="itxt"
+              @change="changeCartNum(shopCartItem, $event.target.value * 1, false)">
+            <a href="javascript:void(0)" class="plus" @click="changeCartNum(shopCartItem, +1, true)">+</a>
           </li>
           <li class="cart-list-con6">
-            <span class="sum" v-if="shopCart">{{ shopCart.skuNum * shopCart.cartPrice }}</span>
+            <span class="sum" v-if="shopCartItem">{{ shopCartItem.skuNum * shopCartItem.cartPrice }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="javascript:;" class="sindelet" @click="deleteOne(shopCart)">删除</a>
+            <a href="javascript:;" class="sindelet" @click="deleteOne(shopCartItem)">删除</a>
             <br>
             <a href="#none">移到收藏</a>
           </li>
@@ -45,7 +45,7 @@
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a href="javascript:;" @click="deleteAll">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -113,10 +113,20 @@ export default {
 
     },
     // 删除单个商品
-    async deleteOne(shopCart){
+    async deleteOne(shopCartItem) {
       try {
-        await this.$store.dispatch('deleteCart',shopCart.skuId)
+        await this.$store.dispatch('deleteCart', shopCartItem.skuId)
         alert('删除成功')
+        this.getCartList()
+      } catch (error) {
+        alert(error.message)
+      }
+    },
+    // 删除多个商品
+    async deleteAll() {
+      try {
+        await this.$store.dispatch('deleteCartAll')
+        alert('删除多个商品成功')
         this.getCartList()
       } catch (error) {
         alert(error.message)
@@ -158,7 +168,6 @@ export default {
         } catch (error) {
           alert(error.message)
         }
-
       }
     }
   }

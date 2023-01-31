@@ -50,7 +50,7 @@ export const reqUpdateCartChecked = (skuId, isChecked) => {
 export const reqDeleteCart = (skuId) => {
     return ajax({
         url: `/cart/deleteCart/${skuId}`,
-        methods: 'delete'
+        method: 'delete'
     })
 }
 

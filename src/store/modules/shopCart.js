@@ -38,7 +38,7 @@ const actions = {
 
     async updateCartCheckedAll({ commit, dispatch, state }, isChecked) {
         let promises = []
-        state.shopCart.forEach(item => {
+        state.shopCartList[0].cartInfoList.forEach(item => {
             if (item.isChecked === isChecked) return
             let promise = dispatch('updateCartChecked', { skuId: item.skuId, isChecked: isChecked })
             promises.push(promise)
@@ -54,15 +54,27 @@ const actions = {
         } else {
             return Promise.reject(new Error('failed'))
         }
+    },
+    //删除多个商品
+    async deleteCartAll({commit,dispatch,state}){
+        let promises=[]
+        state.shopCartList[0].cartInfoList.forEach(item=>{
+            if(!item.isChecked) return
+            let promise =dispatch('deleteCart',item.skuId)
+            promises.push(promise)
+        })
+
+        return Promise.all(promises)
     }
 }
 const getters = {
     shopCart(state) {
         if (state.shopCartList[0]) {
             return state.shopCartList[0].cartInfoList || []
+        }else{
+            return []
         }
     }
-
 }
 
 export default {
