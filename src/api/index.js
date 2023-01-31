@@ -26,21 +26,33 @@ export const reqDetailInfo = (skuId) => {
 }
 
 // 添加|修改购物车商品数量
-export const reqAddOrUpdateCart=(skuId,skuNum)=>{
+export const reqAddOrUpdateCart = (skuId, skuNum) => {
     return ajax({
-        url:`/cart/addToCart/${skuId}/${skuNum}`,
-        method:'post'
+        url: `/cart/addToCart/${skuId}/${skuNum}`,
+        method: 'post'
     })
 }
-
 // 获取购物车列表
-export const reqCartList=()=>{
+export const reqCartList = () => {
     return ajax({
-        url:'/cart/cartList',
-        method:'get'
+        url: '/cart/cartList',
+        method: 'get'
     })
 }
-
+// 修改购物车商品的选中状态
+export const reqUpdateCartChecked = (skuId, isChecked) => {
+    return ajax({
+        url: `/cart/checkCart/${skuId}/${isChecked}`,
+        method: 'get'
+    })
+}
+// 删除单个商品
+export const reqDeleteCart = (skuId) => {
+    return ajax({
+        url: `/cart/deleteCart/${skuId}`,
+        methods: 'delete'
+    })
+}
 
 /* 
 mock数据 
