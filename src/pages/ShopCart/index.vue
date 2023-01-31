@@ -11,7 +11,7 @@
         <div class="cart-th6">操作</div>
       </div>
       <div class="cart-body">
-        <ul class="cart-list" v-for="shopCart in shopCartA" :key="shopCart.id">
+        <ul class="cart-list" v-for="shopCart in shopCart" :key="shopCart.id">
           <li class="cart-list-con1">
             <input type="checkbox" name="chk_list" :checked="shopCart.isChecked" @click="upDateOne(shopCart)">
           </li>
@@ -127,7 +127,7 @@ export default {
     // ...mapState({
     //   shopCartList: state => state.shopcart.shopCartList
     // }),
-    ...mapGetters(['shopCartA']),
+    ...mapGetters(['shopCart']),
 
     checkNum() {
       return this.shopCart.reduce((prev, item) => {

@@ -57,7 +57,7 @@ const actions = {
     }
 }
 const getters = {
-    shopCartA(state) {
+    shopCart(state) {
         if (state.shopCartList[0]) {
             return state.shopCartList[0].cartInfoList || []
         }
