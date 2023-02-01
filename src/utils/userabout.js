@@ -3,6 +3,7 @@
 */
 import { v4 as uuidv4 } from "uuid";
 
+let TOKEN_KEY = 'TOKEN_KEY'
 function getUserTempId() {
     let userTempId = localStorage.getItem('USERTEMPID_KEY')
 
@@ -13,6 +14,22 @@ function getUserTempId() {
     return userTempId
 }
 
+// 设置
+function setToken(token) {
+    localStorage.setItem(TOKEN_KEY, token)
+}
+// 修改
+function getToken() {
+    return localStorage.getItem(TOKEN_KEY)
+}
+// 删除
+function removeToken() {
+    localStorage.removeItem(TOKEN_KEY)
+}
+
 export {
-    getUserTempId
+    getUserTempId,
+    setToken,
+    getToken,
+    removeToken
 }

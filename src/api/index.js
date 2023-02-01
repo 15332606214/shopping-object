@@ -60,9 +60,18 @@ export const reqDeleteCart = (skuId) => {
 /* 
 用户注册与登录
 */
+// 注册
 export const reqUserRegister=(userInfo)=>{
     return ajax({
         url:'/user/passport/register',
+        method:'post',
+        data:userInfo
+    })
+}
+// 登录
+export const reqUserLogin=(userInfo)=>{
+    return ajax({
+        url:'/user/passport/login',
         method:'post',
         data:userInfo
     })
