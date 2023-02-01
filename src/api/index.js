@@ -25,6 +25,9 @@ export const reqDetailInfo = (skuId) => {
     })
 }
 
+/* 
+购物车
+*/
 // 添加|修改购物车商品数量
 export const reqAddOrUpdateCart = (skuId, skuNum) => {
     return ajax({
@@ -51,6 +54,17 @@ export const reqDeleteCart = (skuId) => {
     return ajax({
         url: `/cart/deleteCart/${skuId}`,
         method: 'delete'
+    })
+}
+
+/* 
+用户注册与登录
+*/
+export const reqUserRegister=(userInfo)=>{
+    return ajax({
+        url:'/user/passport/register',
+        method:'post',
+        data:userInfo
     })
 }
 
