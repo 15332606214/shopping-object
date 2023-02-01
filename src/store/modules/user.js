@@ -25,8 +25,8 @@ const actions = {
     async userLogin({ commit }, userInfo) {
         const result = await reqUserLogin(userInfo)
         if (result.code === 200) {
-            commit('RECEIVE_TOKEN', result, data.token)
-            setToken(result, data.token)
+            commit('RECEIVE_TOKEN', result.data.token)
+            setToken(result.data.token)
             return 'ok'
         } else {
             return Promise.reject(new Error('failed'))
