@@ -1,7 +1,7 @@
 /* 
 管理用户登录数据相关的vuex子模块
 */
-import { reqUserLogin, reqUserRegister } from "@/api";
+import { reqUserLogin, reqUserRegister,reqUserInfo } from "@/api";
 import { getUserTempId, getToken, setToken, removeToken } from "@/utils/userabout";
 const state = {
     // 获取用户临时id

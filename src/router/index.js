@@ -27,6 +27,7 @@ router.beforeEach(async (to, from, next) => {
             // 去非登录页
             let hasUserInfo = !!store.state.user.userInfo.nickName
             if (hasUserInfo) {
+                // 用户信息存在
                 next()
             } else {
                 try {
