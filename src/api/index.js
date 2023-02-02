@@ -96,6 +96,25 @@ export const reqUserLogout=()=>{
 }
 
 /* 
+购物车结算页面
+*/
+export const reqTradeInfo=()=>{
+    return ajax({
+        url:'/order/auth/trade',
+        method:'get'
+    })
+}
+
+// 结算页面提交订单(即创建订单)
+export const reqSubmitOrder =(tradeNo,tradeData)=>{
+    return ajax({
+        url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,
+        method:'post',
+        data:tradeData
+    })
+}
+
+/* 
 mock数据 
 */
 // 获取今日推荐数据
