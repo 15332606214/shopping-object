@@ -87,6 +87,14 @@ export const reqUserInfo=()=>{
     })
 }
 
+// 退出登录
+export const reqUserLogout=()=>{
+    return ajax({
+        url:'/user/passport/logout',
+        method:'get'
+    })
+}
+
 /* 
 mock数据 
 */

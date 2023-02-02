@@ -1,7 +1,7 @@
 /* 
 管理用户登录数据相关的vuex子模块
 */
-import { reqUserLogin, reqUserRegister,reqUserInfo } from "@/api";
+import { reqUserLogin, reqUserRegister, reqUserInfo, reqUserLogout } from "@/api";
 import { getUserTempId, getToken, setToken, removeToken } from "@/utils/userabout";
 const state = {
     // 获取用户临时id
@@ -17,10 +17,10 @@ const mutations = {
     RECEIVE_USERINFO(state, userInfo) {
         state.userInfo = userInfo
     },
-    RESET_USERINFO(state){
+    RESET_USERINFO(state) {
         // 包含用户信息和token
-        state.userInfo={}
-        state.token=''
+        state.userInfo = {}
+        state.token = ''
     }
 }
 const actions = {
@@ -43,19 +43,30 @@ const actions = {
         }
     },
 
-    async getUserInfo({commit}){
-        const result=await reqUserInfo()
-        if(result.code===200){
-            commit('RECEIVE_USERINFO',result.data)
+    async getUserInfo({ commit }) {
+        const result = await reqUserInfo()
+        if (result.code === 200) {
+            commit('RECEIVE_USERINFO', result.data)
             return 'ok'
-        }else{
+        } else {
             return Promise.reject(new Error('failed'))
         }
     },
 
-    async resetUserInfo({commit}){
+    async resetUserInfo({ commit }) {
         removeToken() //调用函数清空localStorage中的token
         commit('RESET_USERINFO')
+    },
+
+    async userLogout({ commit }) {
+        const result = await reqUserLogout()
+        if (result.code === 200) {
+            removeToken() //调用函数清空localStorage中的token
+            commit('RESET_USERINFO')
+            return 'ok'
+        }else{
+            return Promise.reject(new Error('failed'))
+        }
     }
 
 

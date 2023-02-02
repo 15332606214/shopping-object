@@ -37,7 +37,7 @@ router.beforeEach(async (to, from, next) => {
                     alert('用户token过期')
                     // 清除数据
                     store.dispatch('resetUserInfo')
-                    // 跳转至登录页
+                    // 跳转至登录页(携带未去成功的页面信息)
                     next('/login?redirect=' + to.path)
                 }
             }

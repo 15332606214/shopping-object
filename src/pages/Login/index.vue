@@ -83,7 +83,7 @@ export default {
         try {
           await this.$store.dispatch('userLogin', { phone, password })
           alert('登陆成功')
-          // 与全局导航守卫配合
+          // 与全局导航守卫配合（判断是否携带未去成的页面信息）
           let redirect=this.$route.query.redirect||'/'
           this.$router.push(redirect)
         } catch (error) {
