@@ -78,6 +78,16 @@ export const reqUserLogin=(userInfo)=>{
 }
 
 /* 
+根据token获取用户信息
+*/
+export const reqUserInfo=()=>{
+    return ajax({
+        url:'/user/passport/auth/getUserInfo',
+        method:'get'
+    })
+}
+
+/* 
 mock数据 
 */
 // 获取今日推荐数据

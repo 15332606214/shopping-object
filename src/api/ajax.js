@@ -22,10 +22,17 @@ service.interceptors.request.use((config) => {
     // 显示请求进度条
     NProgress.start()
 
+    // 携带临时标识
     let userTempId = store.state.user.userTempId
     if (userTempId) {
         config.headers.userTempId = userTempId
     }
+    // 携带临时标识
+    let token = store.state.user.token
+    if (token) {
+        config.headers.token = token
+    }
+
     return config //必须返回config。后面会根据返回的config，使用xhr对象发ajax请求
 })
 
