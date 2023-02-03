@@ -114,6 +114,22 @@ export const reqSubmitOrder =(tradeNo,tradeData)=>{
     })
 }
 
+// 获取支付信息
+export const reqPayInfo=(orderId)=>{
+    return ajax({
+        url:`.payment/weixin/createNative/${orderId}`,
+        method:'get'
+    })
+}
+
+// 查询订单支付状态
+export const reqPayStatus =(orderId)=>{
+    return ajax({
+        url:`/payment/weixin/queryPayStatus/${orderId}`,
+        method:'get'
+    })
+}
+
 /* 
 mock数据 
 */

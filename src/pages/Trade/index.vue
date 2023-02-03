@@ -94,7 +94,8 @@ export default {
   name: 'Trade',
   data() {
     return {
-      message: ''
+      message: '',
+      orderNo:''
     }
   },
   mounted() {
@@ -117,7 +118,7 @@ export default {
       let tradeNo = this.tradeInfo.tradeNo;
       let tradeData = {
         consignee: this.defaultUserAddress.consignee,
-        consigneeTel: 15010658793,
+        consigneeTel: this.defaultUserAddress.phoneNum,
         deliveryAddress: this.defaultUserAddress.userAddress,
         paymentWay: "ONLINE",
         orderComment: this.message,
@@ -126,9 +127,10 @@ export default {
 
       try {
         const result = await this.$API.reqSubmitOrder(tradeNo, tradeData)
-        if (result.code === 200) {
+        console.log(result);
+        if (result.code === 201) {
           this.orderNo = result.data
-          this.$router.push('/pay')
+          this.$router.push('/pay?orderNo='+result.data)
         }
       } catch (error) {
         alert('提交失败')
