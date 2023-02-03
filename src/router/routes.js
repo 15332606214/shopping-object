@@ -9,6 +9,9 @@ import Trade from "@/pages/Trade";
 import Center from "@/pages/Center";
 import Pay from "@/pages/Pay";
 import PaySuccess from "@/pages/PaySuccess";
+// 二级路由
+import GroupOrder from "@/pages/Center/GroupOrder";
+import MyOrder from "@/pages/Center/MyOrder";
 
 export default[
     {
@@ -46,13 +49,23 @@ export default[
         path:'/trade',
         component:Trade
     },{
-        path:'/center',
-        component:Center
-    },{
         path:'/pay',
         component:Pay
     },{
         path:'/paysuccess',
         component:PaySuccess
+    },{
+        path:'/center',
+        component:Center,
+        redirect:'/center/myorder',
+        children:[
+            {
+                path:'myorder',
+                component:MyOrder
+            },{
+                path:'grouporder',
+                component:GroupOrder
+            }
+        ]
     }
 ]

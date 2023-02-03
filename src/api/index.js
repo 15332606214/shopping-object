@@ -130,6 +130,14 @@ export const reqPayStatus =(orderId)=>{
     })
 }
 
+// 二级分类我的订单数据
+export const reqMyOrderInfo=(page,limit)=>{
+    return ajax({
+        url:`/order/auth/${page}/${limit}`,
+        method:'get'
+    })
+}
+
 /* 
 mock数据 
 */
