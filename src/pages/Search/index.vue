@@ -108,7 +108,7 @@
               </li>
             </ul>
           </div>
-          <Pagination :currentPage="options.pageNo" :total="total" :pageSize="options.pageSize" :showPageNo="3"
+          <MyPagination :currentPage="options.pageNo" :total="total" :pageSize="options.pageSize" :showPageNo="3"
             @currrentChange="currrentChange" />
         </div>
       </div>

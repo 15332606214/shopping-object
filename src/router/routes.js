@@ -13,6 +13,9 @@ import PaySuccess from "@/pages/PaySuccess";
 import GroupOrder from "@/pages/Center/GroupOrder";
 import MyOrder from "@/pages/Center/MyOrder";
 
+// 用于路由独享守卫
+import store from "@/store";
+
 export default[
     {
         path:'/',
@@ -26,7 +29,17 @@ export default[
         component:Login,
         meta:{
             isHideFooter:true
-        }
+        },
+        // 路由独享守卫
+        // beforeEnter:(to,from,next)=>{
+        //     // 只有未登录才能到登录页
+        //     let token=store.state.user.token
+        //     if(token){
+        //         next('/')
+        //     }else{
+        //         next()
+        //     }
+        // }
     },{
         path:'/register',
         component:Register,
@@ -41,7 +54,17 @@ export default[
         }
     },{
         path:'/addcartsuccess',
-        component:AddCartSuccess
+        component:AddCartSuccess,
+        beforeEnter:(to,from,next)=>{
+            let skuNum=to.query.skuNum
+            let skuInfo=sessionStorage.getItem('SKUINFO_KEY')
+            if(skuNum&&skuInfo){
+                next()
+            }else{
+                alert('必须携带参数')
+                next('/')
+            }
+        }
     },{
         path:'/shopcart',
         component:ShopCart

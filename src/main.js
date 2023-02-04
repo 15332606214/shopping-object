@@ -4,7 +4,7 @@ import router from "@/router";
 import store from "./store";
 
 import TypeNav from "./components/TypeNav";
-import Pagination from "./components/Pagination";
+import MyPagination from "./components/Pagination";
 
 import './plugins/swiper'   //加载swiper的配置
 import './plugins/element'  //加载element-ui
@@ -14,7 +14,7 @@ import * as API from '@/api'
 
 // 注册全局组件
 Vue.component(TypeNav.name, TypeNav)
-Vue.component(Pagination.name, Pagination)
+Vue.component(MyPagination.name, MyPagination)
 
 // 控制台不显示 非生产环境下的打包提示
 Vue.config.productionTip = false

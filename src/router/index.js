@@ -45,7 +45,13 @@ router.beforeEach(async (to, from, next) => {
 
     } else {
         // 未登陆过
-        next()
+        // 交易&&支付&&用户中心 相关页面都要登录才能访问
+        if(to.path.indexOf('/trade')===0||to.path.startsWith('/pay')||to.path.startsWith('/center')){
+            next('/login?redirect='+to.path)
+        }else{
+            next()
+        }
+         
     }
 })
 

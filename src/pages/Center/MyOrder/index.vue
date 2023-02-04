@@ -67,13 +67,24 @@
 
             </div>
             <div class="choose-order">
-                <Pagination 
+                <el-pagination
+                @current-change="currrentChange"
+                    background
+                    :current-page="page"
+                    :page-size="limit"
+                    :pager-count="7"
+                    :page-sizes="[3,5,10,20]"
+                    @size-change="handleSizeChange"
+                    layout="  prev, pager, next, jumper,->,sizes,total"
+                    :total="total">
+                </el-pagination>
+                <!-- <Pagination 
                 :currentPage="page"
                 :total="total"
                 :pageSize="limit"
                 :showPageNo="5"
                 @currrentChange="currrentChange"
-                ></Pagination>
+                ></Pagination> -->
             </div>
         </div>
         <!--猜你喜欢-->
@@ -162,9 +173,12 @@ export default {
             }
         },
         currrentChange(page){
-            console.log('666');
             this.page=page
-            
+            this.getMyOrderInfo()
+        },
+        // 每页显示多少条信息
+        handleSizeChange(size){
+            this.limit=size
             this.getMyOrderInfo()
         }
     }

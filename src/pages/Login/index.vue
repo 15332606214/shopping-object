@@ -74,6 +74,19 @@ export default {
       password: ''
     }
   },
+  // 组件内守卫（勾子）
+  beforeRouteEnter(to,from,next){
+    // 守卫执行前，组件实例还未被创建，无法获取组件实例 this
+    next(vm=>{
+      // 通过vm访问组件实例
+      if(vm.$store.state.user.token){
+        next('/')
+      }else{
+        next()
+      }
+    })
+  },
+
   methods: {
     async login() {
       // 获取用户数据
