@@ -9,13 +9,18 @@ import MyPagination from "./components/Pagination";
 import './plugins/swiper'   //加载swiper的配置
 import './plugins/element'  //加载element-ui
 import './mock/mockServer'  //加载mock数据
+import './plugins/velidate' //表达验证
 
 import * as API from '@/api'
-
+// 路由懒加载
+import VueLazyload from "vue-lazyload";
+import loading from "@/assets/images/loading.gif";
 // 注册全局组件
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(MyPagination.name, MyPagination)
-
+Vue.use(VueLazyload,{
+  loading  //:require('@/assets/images/loading.gif')
+})
 // 控制台不显示 非生产环境下的打包提示
 Vue.config.productionTip = false
 
